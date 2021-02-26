@@ -12,25 +12,115 @@ using namespace std;
 #define GH 1 ///////// for high score////////////
 bool skip = false;
 bool newG = false;
+bool gameOver = false;
 //for high score
-  int  point = 0;
-  int flag = 0;
-  int movec = (windowWidth / 2) - 85;
-  char* hoverImg[5] = { "images//help1.bmp","images//hover4.bmp", "images//hover3.bmp", "images//hover2.bmp", "images//hover1.bmp"};
+int  point = 0;
+int flag = 0;
+int movec = (windowWidth / 2) - 85;
+char* hoverImg[5] = { "images//help1.bmp", "images//hover4.bmp", "images//hover3.bmp", "images//hover2.bmp", "images//hover1.bmp" };
 bool inDis = true;
 
 int index0 = 0;
 int in = 0;
 char userName[1000];
-void setHigh(char* player, long int b) {
+
+struct d {
+	char pl[1000];
+	int scr;
+} temp;
+
+char *convertInt(int a){
+	int h;
+	int f = a;
+	int c = 0;
+	int *s;
+	c = (a == 0) ? 1 : (log10(a) + 1);
+	s = (int*)malloc(c);
+	for (int i = 0; i<c; i++){
+		h = f % 10;
+		f = f / 10;
+		s[i] = h;
+	}
+	int*t;
+	t = (int*)malloc(c);
+	for (int i = 0; i< c; i++){
+		t[i] = s[(c - 1) - i];
+
+
+	}
+	char *p;
+	p = (char*)malloc(c);
+	for (int i = 0; i< c; i++){
+		p[i] = (char)(t[i] + 48);
+	}
+
+	return p;
+
+}
+
+
+
+int lineCount(){
+	FILE *f = fopen("HIGH_SCORE_DR_IMMUNITY.txt", "r");
+	char us[1000];
+	int g;
+	int count = 0;
+	for (; !feof(f);) {
+		fscanf(f, "%s %d", us, &g);
+		count++;
+		if (feof(f)) {
+			break;
+		}
+	}
+	return count;
+}
+
+void rankScore(){
+	int k = lineCount();
+	struct d *x;
+	x = (struct d *)malloc((k) * sizeof(struct d));
+	FILE *a = fopen("HIGH_SCORE_DR_IMMUNITY.txt", "r+");
+
+	for (int i = 0; i<k; i++) {
+		fscanf(a, "%s %d", x[i].pl, &x[i].scr);
+	}
+	fclose(a);
+	char z[1000];
+	for (int i = 0; i<k; i++) {
+		for (int j = i + 1; j < k; j++) {
+			if (x[i].scr < x[j].scr) {
+				int temp = x[i].scr;
+				x[i].scr = x[j].scr;
+				x[j].scr = temp;
+				strcpy(z, x[i].pl);
+				strcpy(x[i].pl, x[j].pl);
+				strcpy(x[j].pl, z);
+			}
+		}
+	}
+	FILE *n = fopen("HIGH_SCORE_DR_IMMUNITY.txt", "w+");
+
+
+	for (int i = 0; i < k - 1; i++) {
+		fprintf(n, "%s\t", x[i].pl);
+		fprintf(n, "%d\n", x[i].scr);
+	}
+	free(x);
+	fclose(n);
+}
+
+
+void setHigh(char* player, int scr) {
 	int u;
 	long int y;
 	char c[1000];
 	int i;
 	FILE *a;
-	
-	FILE *o;
 	FILE *g;
+	struct d plr;
+	strcpy(plr.pl, player);
+	plr.scr = scr;
+
 	bool k = false;
 	a = fopen("HIGH_SCORE_DR_IMMUNITY.txt", "r");
 	if (a == NULL) {
@@ -39,39 +129,33 @@ void setHigh(char* player, long int b) {
 		k = true;
 		fclose(a);
 	}
-	else{
+	else {
 		a = fopen("HIGH_SCORE_DR_IMMUNITY.txt", "a");
 		fclose(a);
 	}
-	
-	o = fopen("HIGH_SCORE_DR_IMMUNITY.txt", "r+");
-	fscanf(o, "%s %d", c, &y);
-	
-
-	fclose(o);
-	
-	if (b > y){
+	if (k == false && gameOver == true){
+		g = fopen("HIGH_SCORE_DR_IMMUNITY.txt", "a+");
+		fprintf(g, " %s %d \n", plr.pl,plr.scr);
+		
+		fclose(g);
+		
+	}
+	else if (k == true && gameOver == true) {
+		struct d f[5];
 		g = fopen("HIGH_SCORE_DR_IMMUNITY.txt", "w+");
-		fprintf(g, " %s       %d \n", player, b);
+		fprintf(g, " %s %d \n", plr.pl,plr.scr);
+		for (i = 0; i < 5; i++){
+			fprintf(g, " %s %d \n", "Unknown", 0);
+		}
+		k = false;
 		fclose(g);
 	}
-	else if (k == true){
-		g = fopen("HIGH_SCORE_DR_IMMUNITY.txt", "w+");
-		fprintf(g, " %s       %d \n", player, b);
-
-		fclose(g);
-	}
-	else{
-		g = fopen("HIGH_SCORE_DR_IMMUNITY.txt", "w+");
-		fprintf(g, " %s       %d \n", c, y);
-
-		fclose(g);
-	}
+	rankScore();
 }
 
 void showHigh(){
 	FILE *a;
-	fopen_s(&a,"HIGH_SCORE_DR_IMMUNITY.txt", "r");
+	fopen_s(&a, "HIGH_SCORE_DR_IMMUNITY.txt", "r");
 	if (a == NULL){
 		iSetColor(255, 0, 0);
 		iText(350, 500, "SHAME FOR HUMANS", GLUT_BITMAP_TIMES_ROMAN_24);
@@ -79,34 +163,52 @@ void showHigh(){
 		iText(220, 330, "Still no one has the courage to fight CORONA VIRUS", GLUT_BITMAP_TIMES_ROMAN_24);
 	}
 	else{
-		int g = fgetc(a);
-		char play[10000];
-		char ch;
-		for (;;){
+		iText(300, 500, "Player", GLUT_BITMAP_TIMES_ROMAN_24);
+		iText(600, 500, "Score", GLUT_BITMAP_TIMES_ROMAN_24);
+		int count = 0;
+		int i = 0;
+		int scr;
+		char pl[1000];
+		char *p;
+		char *v;
+		if (a != NULL) {
+			while (fscanf(a, "%s %d", pl, &scr) !=EOF) {
+				if (count < 10) {
+					
+					iText(300,450-i, pl,GLUT_BITMAP_TIMES_ROMAN_24);
+					p = convertInt(scr);
+					iText(600, 450 - i, p, GLUT_BITMAP_TIMES_ROMAN_24);
+					
+				}
+				else{
 
-			fgets(play, 10000, a);
-			if (feof(a)){
-				break;
+					fclose(a);
+					break;
+
+				}
+				count++;
+				i += 40;
+				v = convertInt(count);
+				iText(250, 490 - i,v, GLUT_BITMAP_TIMES_ROMAN_24);
+				
+
 			}
-
+			fclose(a);
+			free(p);
+			free(v);
 		}
-
-
-		iShowBMP2(200, 350, "images//coronaHigh.bmp", 0);
-		iText(400, 300, play, GLUT_BITMAP_TIMES_ROMAN_24);
-		fclose(a);
 	}
 }
 void show(int a)
 {
-	
-	
-	  int h;
-	  int f = a;
-	  int c = 0;
-	  int *s;
+
+
+	int h;
+	int f = a;
+	int c = 0;
+	int *s;
 	c = (a == 0) ? 1 : (log10(a) + 1);
-        s = (  int*)malloc(c);
+	s = (int*)malloc(c);
 	for (int i = 0; i<c; i++){
 		h = f % 10;
 		f = f / 10;
@@ -161,34 +263,35 @@ void show(int a)
 }
 
 
+
+
 char s[100];
 
 int x;
 int y;
-int jmp = 0;
 int r = 255;
 int g = 255;
 int b = 255;
-bool input = true;//logic for input user name
-int ix=0, iy=0;
+bool takeInput = true;//logic for input user name
+int ix = 0, iy = 0;
 
-int mpx, mpy, count=0;
+int mpx, mpy, count = 0;
 
 string currentPage = "homePage";
 
 
 int getPercentage(int num, int percent){
-	return (int) ((num*percent) / 100);
+	return (int)((num*percent) / 100);
 }
 
 typedef struct MenuItem{
 	char *title;
-	char *hover ; //to store hover effect image 
+	char *hover; //to store hover effect image 
 	int x, y;
 	int width = 400;
 	int height = 50;
 	bool onHoverState = false, firstEntry = true;
-	
+
 	MenuItem(){}
 	MenuItem(int x, int y, char *title) : x(x), y(y), title(title){
 
@@ -199,16 +302,16 @@ typedef struct MenuItem{
 	}
 	void display(){
 		iShowBMP2(x + getPercentage(width, 0), y + getPercentage(height, 40), title, 0);
-		if (this->isInsideThis( mpx, mpy )) 
+		if (this->isInsideThis(mpx, mpy))
 			onHoverState = true;
-		else 
+		else
 			onHoverState = false;
 
 		if (onHoverState){
 			iSetColor(0, 0, 0);
-		//	iFilledRectangle(x, y, width, height);
-			iShowBMP2(x + getPercentage(width, -10), y + getPercentage(height, 40), "images//arr.bmp",0);
-			iShowBMP2(x + getPercentage(width, 0), y + getPercentage(height, 40),hover, 0);
+			//	iFilledRectangle(x, y, width, height);
+			iShowBMP2(x + getPercentage(width, -10), y + getPercentage(height, 40), "images//arr.bmp", 0);
+			iShowBMP2(x + getPercentage(width, 0), y + getPercentage(height, 40), hover, 0);
 			iSetColor(255, 255, 255);
 			if (firstEntry){
 				PlaySound("Sounds\\btn_hover.wav", NULL, SND_ASYNC);
@@ -222,7 +325,7 @@ typedef struct MenuItem{
 
 		cout << mpx << " " << mpy << endl;
 		//iText(x + getPercentage(width, 40), y + getPercentage(height, 40), title, GLUT_BITMAP_HELVETICA_18);
-		
+
 	}
 
 	void cliked(){
@@ -231,24 +334,24 @@ typedef struct MenuItem{
 } MenuItem;
 
 
-char* menuTitles[5] = {"images//help.bmp", "images//menu4.bmp", "images//menu3.bmp", "images//menu2.bmp", "images//menu1.bmp"};
+char* menuTitles[5] = { "images//help.bmp", "images//menu4.bmp", "images//menu3.bmp", "images//menu2.bmp", "images//menu1.bmp" };
 struct Menu{
 	int x = 0, y = 0;
 	int dy = 70, totalItems;
 	int width, height;
 	MenuItem *items;
-	
+
 	Menu(int x, int y, int width, int height, MenuItem items[], int totalItems) :x(x), y(y), width(width), height(height), totalItems(totalItems){
 		this->items = items;
 	}
-	
+
 	void display(){
 		for (int i = 0; i < totalItems; i++){
 			items[i].x = this->x;
 			items[i].y = this->y;
 			items[i].width = this->width;
 			items[i].height = this->height;
-			items[i].hover =  hoverImg[i];//hover state image (Muhaiminul kabir)
+			items[i].hover = hoverImg[i];//hover state image (Muhaiminul kabir)
 			items[i].title = menuTitles[i];
 			items[i].display();
 
@@ -257,12 +360,12 @@ struct Menu{
 		y -= dy*totalItems; // Resetting y
 	}
 };
-bool gameOver = false;
+
 
 void background()
 {
 	iFilledRectangle(0, 0, windowWidth, windowHeight);
-	
+
 }
 
 int totalMenuItems = 5;
@@ -321,13 +424,13 @@ void newGame(){
 
 
 	iShowBMP2((windowWidth / 2) - 85, 0, person_run[runnngIndex++], 0);
-	
+
 	point++;// SHOULD BE CHANGED
 	show(point);// Showing int on screen
-	
-	
+
+
 	if (runnngIndex > 1) runnngIndex = 0;
-	
+
 	iDelayMS(100);
 
 	//iLine(240, 140, 442, 514);
@@ -339,7 +442,9 @@ void newGame(){
 	iShowBMP2(windowWidth - 50, windowHeight - 50, "images//heart_filled.bmp", 0);
 	iShowBMP2(windowWidth - 110, windowHeight - 50, "images//heart.bmp", 0);
 	if (gameOver){
-		setHigh(userName,point);//now for testing this function is taking score after pressing 'l',, it will take score when game over
+		setHigh(userName, point);//now for testing this function is taking score after pressing 'l',, it will take score when game over
+		
+		gameOver = false;
 	}
 
 }
@@ -347,29 +452,28 @@ void newGame(){
 
 void skipPage(){
 
-		iText(300, 300, "Waiting...", GLUT_BITMAP_TIMES_ROMAN_24);
-	
-	    iShowBMP2(250, 200, "images//load.bmp", 0);
-		
-		newG = true;
-	
+	iText(300, 300, "Waiting...", GLUT_BITMAP_TIMES_ROMAN_24);
+
+	iShowBMP2(250, 200, "images//load.bmp", 0);
+
+	newG = true;
+
 }
 void userPage(){
-	
-	
+
+
 	iShowBMP2(200, 500, "images//12.bmp", 0);
-	
+
 	iText(180, 360, ">>", GLUT_BITMAP_TIMES_ROMAN_24);
 	iShowBMP2(200, 100, "images//13.bmp", 0);
 	iSetColor(255, 0, 0);
 	iText(250, 360, userName, GLUT_BITMAP_TIMES_ROMAN_24);
-	
+
 
 }
 void highScores(){
-	iShowBMP2(350,600,"images//high.bmp",0);
-	
-	showHigh();// showing high score of all time
+	iShowBMP2(350, 600, "images//high.bmp", 0);
+	showHigh();// showing high score
 	iShowBMP2(10, 10, "images//home.bmp", 0);
 }
 void settings(){
@@ -378,7 +482,7 @@ void settings(){
 }
 void helpPage(){
 	/*
-		write insructions, rules here.
+	write insructions, rules here.
 	*/
 	iShowBMP2(10, 10, "images//home.bmp", 0);
 }
@@ -392,23 +496,23 @@ bool user = true;
 void iDraw()
 {
 	iClear();
-	
+
 	iSetColor(0, 48, 73);
 	background();
 
 	iSetColor(r, g, b);
-	
+
 	iText(0, 0, &currentPage[0]);
 
 	if (currentPage == "homePage")
 		homePage();
-	else if (currentPage == "images//menu1.bmp" ){
+	else if (currentPage == "images//menu1.bmp"){
 		if (user){
 			iSetColor(255, 255, 255);
 			userPage();
-			if (!input){
+			if (!takeInput){
 				user = false;
-				
+
 			}
 		}
 		else if (!user)
@@ -425,8 +529,8 @@ void iDraw()
 		creditPage();
 	}
 	else if (currentPage == "images//menu3.bmp"){
-			highScores();
-    }
+		highScores();
+	}
 	else if (currentPage == "images//menu2.bmp"){
 		settings();
 	}
@@ -457,11 +561,11 @@ void iPassiveMouseMove(int mx, int my)
 
 void iMouse(int button, int state, int mx, int my)
 {
-	
+
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
 	{
 		PlaySound("Sounds\\click.wav", NULL, SND_ASYNC);
-		
+
 		if (currentPage == "homePage"){
 			for (int i = 0; i < totalMenuItems; i++){
 				if (menuItems[i].isInsideThis(mx, my)){
@@ -471,12 +575,12 @@ void iMouse(int button, int state, int mx, int my)
 			}
 		}
 		else if (currentPage == "Credits"){
-		
+
 		}
 	}
-	
 
-	
+
+
 	if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
 	{
 	}
@@ -505,12 +609,13 @@ void iKeyboard(unsigned char key)
 			else{
 				index0--;
 			}
+			userName[index0] = '\0';
 		}
-		
-		
+
+
 	}
-	
-	
+
+
 	if (key == 'l')
 	{
 		gameOver = true;//testing showHigh()
@@ -530,22 +635,22 @@ void iSpecialKeyboard(unsigned char key)
 {
 	if (key == GLUT_KEY_INSERT)
 	{
-		input = false;
+		takeInput = false;
 	}
 	if (key == GLUT_KEY_RIGHT)
 	{
-				
+
 	}
 	if (key == GLUT_KEY_LEFT)
 	{
-		
+
 	}
-	
+
 	if (key == GLUT_KEY_HOME)
 	{
-		
+
 	}
-	
+
 }
 
 
