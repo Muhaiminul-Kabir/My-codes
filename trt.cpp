@@ -121,33 +121,33 @@ void setHigh(char* player, int scr) {
 	strcpy(plr.pl, player);
 	plr.scr = scr;
 
-	bool k = false;
+	bool newFile = false;
 	a = fopen("HIGH_SCORE_DR_IMMUNITY.txt", "r");
 	if (a == NULL) {
 
 		a = fopen("HIGH_SCORE_DR_IMMUNITY.txt", "w");
-		k = true;
+		newFile = true;
 		fclose(a);
 	}
 	else {
 		a = fopen("HIGH_SCORE_DR_IMMUNITY.txt", "a");
 		fclose(a);
 	}
-	if (k == false && gameOver == true){
+	if (newFile == false && gameOver == true){
 		g = fopen("HIGH_SCORE_DR_IMMUNITY.txt", "a+");
 		fprintf(g, " %s %d \n", plr.pl,plr.scr);
 		
 		fclose(g);
 		
 	}
-	else if (k == true && gameOver == true) {
+	else if (newFile == true && gameOver == true) {
 		struct d f[5];
 		g = fopen("HIGH_SCORE_DR_IMMUNITY.txt", "w+");
 		fprintf(g, " %s %d \n", plr.pl,plr.scr);
 		for (i = 0; i < 5; i++){
 			fprintf(g, " %s %d \n", "Unknown", 0);
 		}
-		k = false;
+		newFile = false;
 		fclose(g);
 	}
 	rankScore();
