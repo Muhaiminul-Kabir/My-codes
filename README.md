@@ -1,2 +1,2 @@
-# University
-In this repository all the code practised for Academic purpose will be stored.
+# My-codes
+In this repository all the code practised will be stored.
