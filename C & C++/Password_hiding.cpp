@@ -16,6 +16,6 @@ int main()
         cout<<'*';
         
     }
-    cout<<endl<<ch;
+    
     return 0;
 }
