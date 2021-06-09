@@ -7,11 +7,18 @@ const float g = 9.8f ;
 float u = 15;
 float c = 10 * RAD;
 float x = 0.0f,y;  
-float getProjectileDis(float theta, float v0) {
+float projectileDis(float theta, float v0) {
     float dis;
     dis = (v0*v0*sin(2*theta))/g ;
     return dis;
 }
+
+float projectileMaxH(float theta, float v0) {
+    float maxH;
+    maxH = (v0*v0*pow(sin(theta),2))/(2*g) ;
+    return maxH;
+}
+
 
 void projectile(){
     y = tan(c)*x - ((g*x*x)/((2*u*cos(c))*(2*u*cos(c))));
