@@ -20,6 +20,13 @@ float projectileMaxH(float theta, float v0) {
 }
 
 
+float projectileTime(float theta, float v0) {
+    float t;
+    t = (v0*sin(theta)/(g)*(g) ;
+    return t;
+}
+
+
 void projectile(){
     y = tan(c)*x - ((g*x*x)/((2*u*cos(c))*(2*u*cos(c))));
 }
