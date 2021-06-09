@@ -22,7 +22,7 @@ float projectileMaxH(float theta, float v0) {
 
 float projectileTime(float theta, float v0) {
     float t;
-    t = (v0*sin(theta)/(g)*(g) ;
+    t = (2*v0*sin(theta))/(g) ;
     return t;
 }
 
