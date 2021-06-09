@@ -1,10 +1,11 @@
 #include<iostream>
 #include<math.h>
+#define RAD  (3.1416/180)
 using namespace std;
 
-float g = 9.8f ;
+const float g = 9.8f ;
 float u = 15;
-float c = 10 * (3.1416/180);
+float c = 10 * RAD;
 
 float getProjectileDis(float theta, float v0) {
     float dis;
