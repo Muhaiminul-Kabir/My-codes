@@ -1,3 +1,5 @@
+/* theta will be in RADIAN instead of DEGREE */
+
 #include<iostream>
 #include<math.h>
 #define RAD  (3.1416/180)
