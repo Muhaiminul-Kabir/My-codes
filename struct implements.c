@@ -18,6 +18,14 @@ int main()
 {
     ai gk;
     gk.hp = {2,3,4};
-    cout << gk.hp.x;
+    for(int  i =0;i< 100;i++){
+    
+        
+        if(i > 50){gk.hp.x--;}
+        else{ gk.hp.x++;}
+        cout << gk.hp.x<<endl ;
+    
+    }
+       
     return 0;
 }
