@@ -10,13 +10,13 @@ typedef struct Vector3{
 typedef struct ai{
     v3 hp={1,3,3};
     v3 bp={2,2,2};
-}ai;
+}AI;
 
 
 
 int main()
 {
-    ai gk;
+    AI gk;
     gk.hp = {2,3,4};
     for(int  i =0;i< 100;i++){
     
