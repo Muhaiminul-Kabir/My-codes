@@ -116,10 +116,13 @@ void setHigh(char* player, long int scr) {
 
 
 void cls() {
-
-// for windows10 use
-    //system("cls");
+#ifdef __linux__ 
     printf("\e[1;1H\e[2J");
+#elif _WIN32
+    system("cls");
+#else
+
+#endif
 
 }
 
