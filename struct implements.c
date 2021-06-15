@@ -1,6 +1,17 @@
 #include<iostream>
 using namespace std;
 
+
+class helllo{
+    public:
+        int c;
+        helllo(int c){
+            this-> c = c;
+            cout<<"hi"<<c<<endl;
+        }
+
+};
+
 typedef struct Vector3{
     float x;
     float y;
@@ -16,14 +27,17 @@ typedef struct ai{
 
 int main()
 {
+    helllo t(4);
+    helllo c(7);
     AI gk;
     gk.hp = {2,3,4};
+    gk.bp = {2,3,4};
     for(int  i =0;i< 100;i++){
     
         
-        if(i > 50){gk.hp.x--;}
-        else{ gk.hp.x++;}
-        cout << gk.hp.x<<endl ;
+        if(i > 50){gk.hp.z--; gk.bp.z--;}
+        else{ gk.hp.z++; gk.bp.z++;}
+        cout << gk.hp.z<<" "<<gk.bp.z<<endl ;
     
     }
        
