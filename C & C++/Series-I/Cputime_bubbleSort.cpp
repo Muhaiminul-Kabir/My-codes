@@ -32,7 +32,6 @@ bool isSort(int x[],int size) {
     }
     cout<<endl<<"got here";
     return true;
-
 }
 
 void sortArr(int x[],int size) {
