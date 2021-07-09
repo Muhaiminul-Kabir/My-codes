@@ -40,7 +40,7 @@ int main()
     }
     int r= 1;//skipping arr[0] AKA head
     while(r< y-1/*last node's linking address will be NULL*/) {
-        arr[r]->next = arr[r];
+        arr[r]->next = arr[r + 1];
 
         r++;
     }
