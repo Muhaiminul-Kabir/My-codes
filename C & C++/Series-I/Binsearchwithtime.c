@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include<time.h>
-int binarySearch(int array[], int x, int low, int high) {
-    while (low <= high)
+int binarySearch(int array[], int x, int lb, int hb) {
+    while (lb <= hb)
     {
-        int mid = low + (high - low) / 2;
+        int mid = lb + (hb - lb) / 2;
         if (array[mid] == x) return mid;
-        else if (array[mid] < x) low = mid + 1;
-        else high = mid - 1;
+        else if (array[mid] < x) lb = mid + 1;
+        else hb = mid - 1;
     }
     return -1;
 }
