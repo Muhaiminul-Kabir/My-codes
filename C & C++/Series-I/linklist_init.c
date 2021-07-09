@@ -19,11 +19,11 @@ void printLinkedlist(struct node *p) {
 
 int main()
 {
-    int y = 4,i =0;
+    int y = 7474,i =0;
     node *arr[y] ;//array of node pointers
 
 
-    for( i = 0; i< 4; i++) {
+    for( i = 0; i< y; i++) {
         arr[i] = NULL;
         if(i != 0) {
             arr[i] = (node*)malloc(sizeof(node));
@@ -33,17 +33,18 @@ int main()
 
     }
     int x = 1;//skipping arr[0] AKA head
-    while(x< 4) {
+    while(x< y) {
         arr[x]->data = x;
 
         x++;
     }
     int r= 1;//skipping arr[0] AKA head
-    while(r< 3/*last node's linking address will be NULL*/) {
-        arr[r]->next = arr[r + 1];
+    while(r< y-1/*last node's linking address will be NULL*/) {
+        arr[r]->next = arr[r];
 
         r++;
     }
+    
     arr[r] = NULL;
     HEAD = arr[1];//setting arr[1] as head
 
