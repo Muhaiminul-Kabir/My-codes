@@ -4,7 +4,7 @@ using namespace std;
 
 struct LknkedList {
     int data;
-    struci LinkedList *next;
+    struct LinkedList *next;
 
 };
 
