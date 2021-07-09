@@ -1,58 +1,41 @@
 #include<stdio.h>
-#include<stdlib.h>
+using namespace std;
 
-#define HEAD arr[0]
 
-struct node {
+struct LknkedList {
     int data;
-    struct node *next;
+    struci LinkedList *next;
 
 };
-typedef struct node node;
 
-void printLinkedlist(struct node *p) {
-    while (p != NULL) {
-        printf(" %d ", p->data);
-        p = p->next;
-    }
+typedef struct LinkedList *node;
+
+node createNode() {
+    node temp;
+    temp = (node)malloc(sizeof(struct LinkedList));
+    temp->next = NULL;
+    return temp;
 }
 
-int main()
-{
-    int y = 7474,i =0;
-    node *arr[y] ;//array of node pointers
-
-
-    for( i = 0; i< y; i++) {
-        arr[i] = NULL;
-        if(i != 0) {
-            arr[i] = (node*)malloc(sizeof(node));
-
-
+node addNode(node head, int data){
+    node temp,p;
+    temp = createNode();
+    temp->data = data;
+    if(head == NULL){
+        head = temp;
+    }
+    else{
+        p = head;
+        while(p->next != NULL){
+            p = p->next;
+        
         }
-
+        p->next = temp;
     }
-    int x = 1;//skipping arr[0] AKA head
-    while(x< y) {
-        arr[x]->data = x;
-
-        x++;
-    }
-    int r= 1;//skipping arr[0] AKA head
-    while(r< y-1/*last node's linking address will be NULL*/) {
-        arr[r]->next = arr[r + 1];
-
-        r++;
-    }
-    
-    arr[r] = NULL;
-    HEAD = arr[1];//setting arr[1] as head
+    return head ;
+}
 
 
-
-
-    printf("[");
-    printLinkedlist(HEAD);
-    printf("]");
-    return 0;
+int main() {
+    //TODO: complete the code;
 }
