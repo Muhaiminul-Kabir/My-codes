@@ -54,7 +54,7 @@ typedef struct data data;
 int coelhos = 0;
 int ratos = 0;
 int sapos  = 0;
-int cobaias = 0;
+double cobaias = 0;
 double ratosP = 0.0;
 double coelhosP = 0.0;
 double saposP = 0.0;
