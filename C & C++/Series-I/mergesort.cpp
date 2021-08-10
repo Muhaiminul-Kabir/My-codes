@@ -6,7 +6,7 @@ int a[] = { 2, 3, 1, 5, 4, 6, 7 };
 const int size = sizeof(a) / sizeof(a[0]);
 
 
-
+//a,lb,mid,ub
 void merge(int arr[], int p, int q, int r)
 {
 		int n1 = q - p + 1;
