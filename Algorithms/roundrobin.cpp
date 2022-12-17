@@ -10,10 +10,16 @@ public:
 	int burst_time;
 	int comp_time;
 	int turn_around_time;
+	int waiting_time;
 	int response_time;
+	int cpu_flag;
 	bool isPushed;
 
 };
+
+
+
+string pipe = "";
 
 int first_pr(Process p[],int num){
 	for (int i = 0; i < num ; ++i)
@@ -74,6 +80,7 @@ int main()
 		cin>>pr[i].burst_time;
 
 		pr[i].isPushed = false;
+		pr[i].cpu_flag = pr[i].burst_time;
 
 	}
 
@@ -106,15 +113,28 @@ int main()
 			incmplt.push_back(pr[index].pid);
 		}
 
+
+
 		ready.pop();
 		cout<<"pr popped..."<<endl;
 
 		timer += time_quantum(crnt.burst_time);
+		pipe +="---P"+to_string(crnt.pid)+"---"; 
+		
+		if (pr[index].burst_time == 0)
+		{
+			cout<<"calculating other properties..."<<endl;
+			pr[index].comp_time = timer;
+			pr[index].turn_around_time = pr[index].comp_time - pr[index].arrival_time;
+			pr[index].waiting_time = pr[index].turn_around_time - pr[index].cpu_flag;
+		}
+
+
 		cout<<"timer at : "<<timer<<endl;
 
 
 
-		for (int i = 0;i!=index i < num_pr; ++i)
+		for (int i = 0; i < num_pr; ++i)
 		{
 			if(!pr[i].isPushed && pr[i].arrival_time <= timer){
 				sec_vec.push_back(pr[i]);
@@ -147,9 +167,24 @@ int main()
 		if(!incmplt.empty()) ready.push(pr[incmplt.back() - 1]);
 		incmplt.clear();
 		showq(ready);
+		cout<<pipe;
 		system("pause");
 
 	}
+
+	int sum_wt=0;
+	int sum_tt = 0;
+
+	for (int i = 0; i < num_pr; ++i)
+	{
+		cout<<"id \t"<<" "<<"Waiting time \t"<<"Turn around time\t"<<endl;
+		cout<<"P"<<pr[i].pid<<" "<<pr[i].waiting_time<<"\t"<<pr[i].turn_around_time<<"\t"<<endl;
+		sum_tt += pr[i].turn_around_time;
+		sum_wt += pr[i].waiting_time;
+	}	
+	cout<<"Average waiting time: "<<(double)sum_wt/num_pr;
+	cout<<"Average turn around time: "<<(double)sum_tt/num_pr;
+
 
 	cout<<endl<<"Scheduling done successfully!"<<endl;
 	system("pause");
