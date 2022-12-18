@@ -1,0 +1,41 @@
+
+------accomodation types--------
+1.trending
+2.academic zone
+3.industrial zone
+4.Residential zone
+5.Lakeview
+6.Terminal
+
+
+
+---------host-------------
+1.listing
+2.messege
+3.transaction
+4.tenants
+5.review tenants
+6.notifications
+7.remove tenant (will be removed by our company(physically))
+
+
+--------tenants----------
+0. profile
+1.previous bookings
+2.pay bill to host
+3.review host
+4.report damage to host
+6.notifications
+
+----functionality------
+1.become a host by listing your place
+
+----product-----
+1.rooms
+2.beds
+3.baths
+5.isKitchen
+6.hasGarage
+7.has Sequrity
+8.reviews
+9.ratings
