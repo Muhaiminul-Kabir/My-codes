@@ -17,6 +17,7 @@
 5.review tenants
 6.notifications
 7.remove tenant (will be removed by our company(physically))
+8.product wise rent given by tenants
 
 
 --------tenants----------
@@ -30,7 +31,7 @@
 ----functionality------
 1.become a host by listing your place
 
-----product-----
+----product(accomodation)-----
 1.rooms
 3.baths
 5.isKitchen
@@ -40,3 +41,4 @@
 9.ratings
 10.study facility
 2.bed facility
+11.avaliable sits
