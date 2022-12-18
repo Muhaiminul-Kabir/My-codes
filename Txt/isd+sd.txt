@@ -32,10 +32,11 @@
 
 ----product-----
 1.rooms
-2.beds
 3.baths
 5.isKitchen
 6.hasGarage
 7.has Sequrity
 8.reviews
 9.ratings
+10.study facility
+2.bed facility
