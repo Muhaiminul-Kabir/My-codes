@@ -35,7 +35,7 @@ int first_pr(Process p[],int num){
 
 void sort_pr(vector<Process>& vec){
 	sort(vec.begin(), vec.end(), [](const Process& lhs, const Process& rhs) {
-      return lhs.arrival_time < rhs.arrival_time;
+     	return lhs.arrival_time < rhs.arrival_time;
    	});
 }
 
