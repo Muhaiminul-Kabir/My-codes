@@ -34,7 +34,6 @@
 ----product(accomodation)-----
 1.rooms
 3.baths
-5.isKitchen
 6.hasGarage
 7.has Sequrity
 8.reviews
@@ -42,3 +41,5 @@
 10.study facility
 2.bed facility
 11.avaliable sits
+12.Situation
+5.facilities
