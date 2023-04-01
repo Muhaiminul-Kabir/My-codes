@@ -14,7 +14,7 @@ int main(void) {
 	  int in = 0;
 	  char c;
 	  char f = '\0';
-	  p1 = fopen("play.c", "r");
+	  p1 = fopen("line_number.c", "r");
 	  p2 = fopen("output.txt", "w");
 	  if (!p1) printf("\nFile can't be opened!");
 	  else {
