@@ -5,28 +5,73 @@
 #include <string.h>
 
 int ln = 1;
+int scmblock = 0;
+int mcmblock = 0;
+
 
 int main(void) {
 
+// Single Line Comment
 
+ 
 
 	  FILE * p1, * p2;
 	  int in = 0;
 	  char c;
 	  char f = '\0';
-	  p1 = fopen("filter_space_tab.c", "r");
+	  p1 = fopen("play.c", "r");
 	  p2 = fopen("output.txt", "w");
 	  if (!p1) printf("\nFile can't be opened!");
 	  else {
-
-	  	 
+//amar nam nirjon
+	  	int comment = 0;
 	  	int space_count = 0;
 
 	    while ((c = fgetc(p1)) != EOF) {
 
 	    	
-	     
-	    	if (c==' ')
+/*sjndnjsndjn
+dlkc,dmccjndc
+dmckdmc
+dmckdmc
+dcmkdmc
+dmckdmcd
+cdkcmkdmc
+dmckdmkcm
+dcmkdm
+cmkmd
+cmkdmc
+kd*/
+
+	    	if (comment == 1 && c=='\n')
+	    	{
+	    		comment = 0;
+	    	}else if(comment == 2 ){
+	    		if(c == '/' &&f == '*'){comment = 0;}
+	    		c = fgetc(p1);
+	    	}
+
+	    	if (comment == 0 && c == '/')
+	    	{
+				char ac = fgetc(p1);
+				if (ac=='/')
+			    {
+					comment = 1;
+				}else if (ac=='*')
+				{
+					comment = 2;
+				}else{
+					
+					fputc('/',p2);
+
+					fputc(ac,p2);  
+
+				}
+
+
+	    	}else if (comment == 0)
+	    	{
+	    		if (c==' ')
 	    	{
 	    		space_count++;
 	    	}else if(c != '\n' && c!='\t'){
@@ -42,19 +87,20 @@ int main(void) {
 
 	    	}
 
+	    	}
 
-	    	
 
 
-	        
+
+
 	        
 	        f = c;
 	        
 	    }
+
+
 	    
-	  }
-
-
+	  } 
 
 	  fclose(p1);
 	  fclose(p2);
