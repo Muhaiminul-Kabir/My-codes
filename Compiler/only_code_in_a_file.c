@@ -22,7 +22,7 @@ int main(void) {
 	  int in = 0;
 	  char c;
 	  char f = '\0';
-	  p1 = fopen("play.c", "r");
+	  p1 = fopen("only_code_in_a_file.c", "r");
 	  p2 = fopen("output.txt", "w");
 	  if (!p1) printf("\nFile can't be opened!");
 	  else {
